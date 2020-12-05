@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.notejava.mapper.RoleMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.notejava.entity.Role">
+        <id column="id" property="id"/>
+        <result column="role_name" property="roleName"/>
+        <result column="role_code" property="roleCode"/>
+        <result column="role_remark" property="roleRemark"/>
+        <result column="active_status" property="activeStatus"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, role_name, role_code, role_remark, active_status, create_time
+    </sql>
+
+    <select id="listRoleByUserId" parameterType="Integer" resultType="com.notejava.entity.Role">
+        SELECT
+        a.id, a.role_name, a.role_code, a.role_remark, a.active_status, a.create_time
+        FROM `role` a INNER JOIN `user_role` b ON a.id=b.role_id
+        WHERE
+        b.user_id = #{userId} and a.active_status = 1
+    </select>
+</mapper>
