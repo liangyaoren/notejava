@@ -11,7 +11,7 @@ import lombok.Data;
  * @since 2020-07-05 19:05
  */
 @Data
-public class PermissionInfoBO {
+public class PermissionBO {
 
     private String id;
 

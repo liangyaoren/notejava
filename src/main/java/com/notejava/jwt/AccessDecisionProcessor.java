@@ -1,6 +1,6 @@
 package com.notejava.jwt;
 
-import com.notejava.bo.PermissionInfoBO;
+import com.notejava.bo.PermissionBO;
 import com.notejava.cache.Cache;
 import com.notejava.constant.CacheName;
 import com.notejava.entity.UserDetail;
@@ -25,13 +25,13 @@ public class AccessDecisionProcessor implements AccessDecisionVoter<FilterInvoca
         assert object != null;
 
         // 拿到当前请求uri
-        String requestUrl = object.getRequestUrl();
+        String requestUrl = object.getRequestUrl().split("\\?")[0];
         String method = object.getRequest().getMethod();
         log.debug("进入自定义鉴权投票器，URI : {} {}", method, requestUrl);
 
         String key = requestUrl + ":" + method;
         // 如果没有缓存中没有此权限也就是未保护此API，弃权
-        PermissionInfoBO permission = caffeineCache.get(CacheName.PERMISSION, key, PermissionInfoBO.class);
+        PermissionBO permission = caffeineCache.get(CacheName.PERMISSION, key, PermissionBO.class);
         if (permission == null) {
             return ACCESS_ABSTAIN;
         }
